@@ -23,7 +23,8 @@ ROBOTSTXT_OBEY = False
 
 ITEM_PIPELINES = {
     'preciosclaros.pipelines.DuplicatesPipeline': 100,
-    'preciosclaros.pipelines.MultiCSVItemPipeline': 200,
+    'preciosclaros.pipelines.DistpatchRedisPipeline': 200,
+    'preciosclaros.pipelines.MultiCSVItemPipeline': 300,
 }
 
 

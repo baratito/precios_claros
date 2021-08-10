@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import datetime
+from datetime import date
 from pathlib import Path
 from scrapy.exporters import CsvItemExporter
+import json
 from scrapy import signals
 from pydispatch import dispatcher
+import redis
 
 from scrapy.exceptions import DropItem
-from preciosclaros.items import PrecioItem, ProductoCategorizadoItem
+from preciosclaros.items import PrecioItem, ProductoCategorizadoItem, ProductoItem, SucursalItem
 
 
 class DuplicatesPipeline(object):
@@ -25,6 +28,25 @@ class DuplicatesPipeline(object):
         else:
             self.ids_seen.add(id_)
             return item
+
+def json_serial(obj):
+    if isinstance(obj, (datetime.datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
+
+class DistpatchRedisPipeline(object):
+    def __init__(self):
+        self.redis_connection = redis.Redis(host='localhost', port=6379, db=0, password="420piedrabuena")
+
+    def process_item(self, item, spider):
+        serialized_item = json.dumps(dict(item), default=json_serial)
+
+        if isinstance(item, ProductoItem):
+            self.redis_connection.publish('product', serialized_item)
+        elif isinstance(item, SucursalItem):
+            self.redis_connection.publish('site', serialized_item)
+        
+        return item
 
 
 def item_type(item):
