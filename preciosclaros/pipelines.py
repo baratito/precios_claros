@@ -45,6 +45,8 @@ class DistpatchRedisPipeline(object):
             self.redis_connection.publish('product', serialized_item)
         elif isinstance(item, SucursalItem):
             self.redis_connection.publish('site', serialized_item)
+        elif isinstance(item, ProductoCategorizadoItem):
+            self.redis_connection.publish('category', serialized_item)
         
         return item
 

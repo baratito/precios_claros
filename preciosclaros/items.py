@@ -18,7 +18,7 @@ class SucursalItem(scrapy.Item):
     sucursalId = scrapy.Field()
 
 
-class ProductoItem(scrapy.Item):
+class ProductoItem(scrapy.Item): # simil tipo de producto
     id = scrapy.Field()
     nombre = scrapy.Field()
     presentacion = scrapy.Field()
@@ -30,6 +30,7 @@ class ProductoCategorizadoItem(scrapy.Item):
     nombre = scrapy.Field()
     presentacion = scrapy.Field()
     marca = scrapy.Field()
+    category = scrapy.Field()
     categoria1 = scrapy.Field()
     categoria2 = scrapy.Field()
     categoria3 = scrapy.Field()

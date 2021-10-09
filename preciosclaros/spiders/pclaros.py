@@ -644,6 +644,7 @@ class CategoriasSpider(scrapy.Spider):
             prod.pop("precioMin")
             prod.pop("cantSucursalesDisponible")
             producto = ProductoCategorizadoItem(prod)
+            producto["category"] = cat
             producto["categoria3"] = self.data[cat]
             producto["categoria2"] = self.data[cat.rpartition("-")[0]]
             producto["categoria1"] = self.data[cat.partition("-")[0]]
